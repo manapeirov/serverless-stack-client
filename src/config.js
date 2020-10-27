@@ -1,6 +1,9 @@
 export default {
+  MAX_ATTACHMENT_SIZE: 5000000,
+  STRIPE_KEY:
+    "pk_test_51HdyzhB7dJPV96N9YgSWTTujEJu9MwJiCGlEbEjrLJpHcAiUvh5ValInmdP1AzJlc9UcL98dWmYX4kOlXWLEWtsH00zHelb4Pn\n",
   s3: {
-    REGION: "us-east-2",
+    REGION: "us-east-1",
     BUCKET: "mana-notes-app-uploads",
   },
   apiGateway: {
