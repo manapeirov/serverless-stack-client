@@ -1,38 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { useAppContext } from "../libs/contextLib";
-import { onError } from "../libs/errorLib";
-import { API } from "aws-amplify";
-import "./Home.css";
+import React, { useState, useEffect } from "react"
+import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap"
+import { LinkContainer } from "react-router-bootstrap"
+import { useAppContext } from "../libs/contextLib"
+import { onError } from "../libs/errorLib"
+import { API } from "aws-amplify"
+import { Link } from "react-router-dom"
+import "./Home.css"
 
 export default function Home() {
-  const [notes, setNotes] = useState([]);
-  const { isAuthenticated } = useAppContext();
-  const [isLoading, setIsLoading] = useState(true);
+  const [notes, setNotes] = useState([])
+  const { isAuthenticated } = useAppContext()
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const onLoad = async () => {
       if (!isAuthenticated) {
-        return;
+        return
       }
 
       try {
-        const notes = await getNotes();
-        setNotes(notes);
+        const notes = await getNotes()
+        setNotes(notes)
       } catch (error) {
-        onError(error);
+        onError(error)
       }
 
-      setIsLoading(false);
-    };
+      setIsLoading(false)
+    }
 
-    onLoad();
-  }, [isAuthenticated]);
+    onLoad()
+  }, [isAuthenticated])
 
   const getNotes = () => {
-    return API.get("notes", "/notes");
-  };
+    return API.get("notes", "/notes")
+  }
 
   const renderNotesList = (notes) => {
     // console.log(notes);
@@ -52,19 +53,25 @@ export default function Home() {
           </ListGroupItem>
         </LinkContainer>
       )
-    );
-  };
+    )
+  }
 
   const renderLandingPage = () => {
     return (
       <div className="lander">
-        <div className="lander">
-          <h1>Mana Notes</h1>
-          <p>A simple serverless note taking app</p>
+        <h1>Mana Notes</h1>
+        <p>A simple serverless note taking app</p>
+        <div>
+          <Link to="/login" className="btn btn-info btn-lg">
+            Login
+          </Link>
+          <Link to="/signup" className="btn btn-success btn-lg">
+            Signup
+          </Link>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const renderNotes = () => {
     return (
@@ -72,12 +79,12 @@ export default function Home() {
         <PageHeader>Your Notes</PageHeader>
         <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className="Home">
       {isAuthenticated ? renderNotes() : renderLandingPage()}
     </div>
-  );
+  )
 }

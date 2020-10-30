@@ -44,4 +44,4 @@ export default {
 }
 
 // npm start and npm run build will default to the dev environment.
-// REACT_APP_STAGE=prod npm start will be prod environment.
+// set "REACT_APP_STAGE=prod" && npm start and set "REACT_APP_STAGE=prod" && npm run build will be prod environment.
