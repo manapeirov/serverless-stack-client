@@ -1,25 +1,47 @@
-export default {
-  MAX_ATTACHMENT_SIZE: 5000000,
+const dev = {
   STRIPE_KEY:
     "pk_test_51HdyzhB7dJPV96N9YgSWTTujEJu9MwJiCGlEbEjrLJpHcAiUvh5ValInmdP1AzJlc9UcL98dWmYX4kOlXWLEWtsH00zHelb4Pn\n",
   s3: {
     REGION: "us-east-1",
-    BUCKET: "mana-notes-app-uploads",
+    BUCKET: "dev-mana-notes-infrastructure-s3-uploads4f6eb0fd-1uj1w21yfl5zt",
   },
   apiGateway: {
-    REGION: "us-east-2",
-    URL: "https://1dwqf2lxva.execute-api.us-east-2.amazonaws.com/prod",
+    REGION: "us-east-1",
+    URL: "https://api.mana-serverless-app.co.uk/dev",
   },
   cognito: {
-    REGION: "us-east-2",
-    USER_POOL_ID: "us-east-2_NnvF17zHU",
-    APP_CLIENT_ID: "2t60q8folahr110ebmqe91ne6a",
-    IDENTITY_POOL_ID: "us-east-2:43556d37-7c92-4d34-b0e3-b0b24ca99566",
+    REGION: "us-east-1",
+    USER_POOL_ID: "us-east-1_vt5sCrSHU",
+    APP_CLIENT_ID: "419gc3vi07p9n2r9qbcnqcc7f8",
+    IDENTITY_POOL_ID: "us-east-1:e0af568d-86af-48b7-b820-b87dc4590620",
   },
 };
 
-// Identity Pool ARN-   arn:aws:cognito-identity:us-east-2:070704826772:identitypool/us-east-2:43556d37-7c92-4d34-b0e3-b0b24ca99566
-// Role name: Cognito_manaNotesAppAuth_Role
-// Role name: Cognito_manaNotesAppUnauth_Role
-// API Gateway ID: 1dwqf2lxva
-// User Pool ARN-   arn:aws:cognito-idp:us-east-2:070704826772:userpool/us-east-2_NnvF17zHU
+const prod = {
+  STRIPE_KEY:
+    "pk_test_51HdyzhB7dJPV96N9YgSWTTujEJu9MwJiCGlEbEjrLJpHcAiUvh5ValInmdP1AzJlc9UcL98dWmYX4kOlXWLEWtsH00zHelb4Pn\n",
+  s3: {
+    REGION: "us-east-1",
+    BUCKET: "prod-mana-notes-infrastructure-s3-uploads4f6eb0fd-oiv5eac7qia6",
+  },
+  apiGateway: {
+    REGION: "us-east-1",
+    URL: "https://api.mana-serverless-app.co.uk/prod",
+  },
+  cognito: {
+    REGION: "us-east-1",
+    USER_POOL_ID: "us-east-1_15GBaxUYK",
+    APP_CLIENT_ID: "4gjoq5j4l31scv97hv9bcucbn1",
+    IDENTITY_POOL_ID: "us-east-1:83e9673d-8ace-41a8-ab47-3f7a95631dc5",
+  },
+}
+
+const config = process.env.REACT_APP_STAGE === "prod" ? prod : dev
+
+export default {
+  MAX_ATTACHMENT_SIZE: 5000000,
+  ...config
+}
+
+// npm start and npm run build will default to the dev environment.
+// REACT_APP_STAGE=prod npm start will be prod environment.

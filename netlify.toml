@@ -1,0 +1,35 @@
+# Global settings applied to the whole site
+# "base" is directory to change to before starting build. It's directory where Netlify will run our build commands. In our case it is in the project root. So this is left empty.
+# "publish" is the directory to publish (relative to root of your repo). The publish option points to where our build is generated. In the case of Create React App it is the build directory in our project root.
+# "command" is your build command. The build command that Netlify will use. 
+
+[build]
+    base = ""
+    publish = "build"
+    command = "REACT_APP_STAGE=dev npm run build"
+
+# Production context: All deploys to the main repository branch will inherit these settings
+# The production context labelled, context.production is the only one where we set the REACT_APP_STAGE variable to prod. This is when we push to master.
+[context.production]
+    command = "REACT_APP_STAGE=prod npm run build"
+
+# Deploy Preview context: All Deploy Previews will inherit these settings.
+# The deploy-preview is for pull requests.
+[context.deploy-preview]
+    command = "REACT_APP_STAGE=dev npm run build"
+
+# Branch Deploy context: All deploys that are not in an active Deploy Preview will inherit these settings.
+# The branch-deploy is what we will be using when we push to any other non-production branch.
+[context.branch-deploy]
+    command = "REACT_APP_STAGE=dev npm run build"
+
+
+# We’ll need to handle requests to any non-root paths of our app. 
+# Our frontend is a single-page app and the routing is handled on the client side. 
+# We need to tell Netlify to:
+# always redirect any request to our index.html and return the 200 status code for it.
+
+[[eedirects]]
+    from = "/*"
+    to = "/index.html"
+    status = 200
