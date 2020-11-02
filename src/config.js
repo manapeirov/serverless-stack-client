@@ -26,7 +26,7 @@ const prod = {
   },
   apiGateway: {
     REGION: "us-east-1",
-    URL: "https://api.mana-serverless-app.co.uk/prod",
+    URL: "https://ez0de5li8h.execute-api.us-east-1.amazonaws.com/prod",
   },
   cognito: {
     REGION: "us-east-1",
@@ -34,14 +34,14 @@ const prod = {
     APP_CLIENT_ID: "4gjoq5j4l31scv97hv9bcucbn1",
     IDENTITY_POOL_ID: "us-east-1:83e9673d-8ace-41a8-ab47-3f7a95631dc5",
   },
-}
+};
 
-const config = process.env.REACT_APP_STAGE === "prod" ? prod : dev
+const config = process.env.REACT_APP_STAGE === "prod" ? prod : dev;
 
 export default {
   MAX_ATTACHMENT_SIZE: 5000000,
-  ...config
-}
+  ...config,
+};
 
 // npm start and npm run build will default to the dev environment.
 // set "REACT_APP_STAGE=prod" && npm start and set "REACT_APP_STAGE=prod" && npm run build will be prod environment.
