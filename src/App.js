@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { Navbar, Nav, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { AppContext } from "./libs/contextLib";
-import { Auth } from "aws-amplify";
-import { onError } from "./libs/errorLib";
-import "./App.css";
-import Routes from "./Routes";
+import React, { useEffect, useState } from "react"
+import { Link, useHistory } from "react-router-dom"
+import { Navbar, Nav, NavItem } from "react-bootstrap"
+import { LinkContainer } from "react-router-bootstrap"
+import { AppContext } from "./libs/contextLib"
+import { Auth } from "aws-amplify"
+import { onError } from "./libs/errorLib"
+import "./App.css"
+import Routes from "./Routes"
+import ErrorBoundary from "./components/ErrorBoundary"
 
 export default function App() {
-  const history = useHistory();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const history = useHistory()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticating, setIsAuthenticating] = useState(true)
 
   useEffect(() => {
-    onLoad();
-  }, []);
+    onLoad()
+  }, [])
 
   const onLoad = async () => {
     try {
-      await Auth.currentSession();
-      setIsAuthenticated(true);
+      await Auth.currentSession()
+      setIsAuthenticated(true)
     } catch (error) {
       if (error !== "No current user") {
-        onError(error);
+        onError(error)
       }
     }
-    setIsAuthenticating(false);
-  };
+    setIsAuthenticating(false)
+  }
 
   const handleLogout = async () => {
-    await Auth.signOut();
-    setIsAuthenticated(false);
-    history.push("/login");
-  };
+    await Auth.signOut()
+    setIsAuthenticated(false)
+    history.push("/login")
+  }
 
   return (
     !isAuthenticating && (
@@ -67,10 +68,12 @@ export default function App() {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <AppContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
-          <Routes />
-        </AppContext.Provider>
+        <ErrorBoundary>
+          <AppContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+            <Routes />
+          </AppContext.Provider>
+        </ErrorBoundary>
       </div>
     )
-  );
+  )
 }
